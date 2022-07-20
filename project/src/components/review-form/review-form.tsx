@@ -1,7 +1,7 @@
 import {useState} from 'react';
 
 function ReviewForm() {
-  const [comment, setComment] = useState('')
+  const [comment, setComment] = useState('');
   const [rating, setRating] = useState('');
 
   type FieldEvent = React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>;
