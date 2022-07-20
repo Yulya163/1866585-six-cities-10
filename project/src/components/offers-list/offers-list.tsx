@@ -10,7 +10,7 @@ function OffersList({offers}: OffersListProps): JSX.Element {
 
   const [activePlaceCardId, setActivePlaceCard] = useState({id: 1});
 
-  const placeCardMouseOverHandle = (id: number) => {
+  const handlePlaceCardMouseOver = (id: number) => {
     setActivePlaceCard({...activePlaceCardId, id: id});
   };
 
@@ -20,7 +20,7 @@ function OffersList({offers}: OffersListProps): JSX.Element {
         <PlaceCard
           key={offer.id}
           offer={offer}
-          placeCardMouseOverHandle={placeCardMouseOverHandle}
+          placeCardMouseOverHandle={handlePlaceCardMouseOver}
         />
       ))}
     </div>
