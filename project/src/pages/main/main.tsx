@@ -4,6 +4,7 @@ import Locations from '../../components/locations/locations';
 import OffersList from '../../components/offers-list/offers-list';
 import {Offers, Offer, City} from '../../types/offer';
 import Map from '../../components/map/map';
+import {PlaceClasses} from '../../consts';
 
 type MainProps = {
   rentalOffersCount: number;
@@ -52,6 +53,8 @@ function Main({rentalOffersCount, offers, city}: MainProps): JSX.Element {
               <OffersList
                 offers={offers}
                 handlePlaceCardMouseOver={handlePlaceCardMouseOver}
+                placeListClass={PlaceClasses.MainPlacesListClass}
+                placeCardClass={PlaceClasses.MainPlaceCardClass}
               />
             </section>
             <div className='cities__right-section'>

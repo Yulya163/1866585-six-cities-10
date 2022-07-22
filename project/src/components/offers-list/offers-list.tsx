@@ -3,18 +3,21 @@ import {Offers} from '../../types/offer';
 
 type OffersListProps = {
   offers: Offers;
-  handlePlaceCardMouseOver: (id: number) => void;
+  handlePlaceCardMouseOver?: (id: number) => void;
+  placeListClass: string;
+  placeCardClass: string;
 }
 
-function OffersList({offers, handlePlaceCardMouseOver}: OffersListProps): JSX.Element {
+function OffersList({offers, handlePlaceCardMouseOver, placeListClass, placeCardClass}: OffersListProps): JSX.Element {
 
   return (
-    <div className='cities__places-list places__list tabs__content'>
+    <div className={placeListClass}>
       {offers.map((offer) => (
         <PlaceCard
           key={offer.id}
           offer={offer}
-          handlePlaceCardMouseOver={handlePlaceCardMouseOver}
+          handlePlaceCardMouseOver={handlePlaceCardMouseOver && handlePlaceCardMouseOver}
+          placeCardClass={placeCardClass}
         />
       ))}
     </div>
