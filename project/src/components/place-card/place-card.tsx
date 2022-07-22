@@ -1,13 +1,13 @@
 import {Link} from 'react-router-dom';
 import {Offer} from '../../types/offer';
+import {calcRatingWidth} from '../../utils';
 
 type PlaceCardProps = {
   offer: Offer;
-  placeCardMouseOverHandle: (id: number) => void;
+  handlePlaceCardMouseOver: (id: number) => void;
 }
-const calcRatingWidth = (rating: number) => `${Math.round(rating) * 20}%`;
 
-function PlaceCard({offer, placeCardMouseOverHandle}: PlaceCardProps) {
+function PlaceCard({offer, handlePlaceCardMouseOver}: PlaceCardProps): JSX.Element {
   const {
     price,
     previewImage,
@@ -21,7 +21,7 @@ function PlaceCard({offer, placeCardMouseOverHandle}: PlaceCardProps) {
   return (
     <article
       className='cities__card place-card'
-      onMouseOver={() => placeCardMouseOverHandle(id)}
+      onMouseOver={() => handlePlaceCardMouseOver(id)}
     >
       {isPremium ?
         <div className='place-card__mark'>

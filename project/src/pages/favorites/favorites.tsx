@@ -1,12 +1,11 @@
 import { Link } from 'react-router-dom';
 import Header from '../../components/header/header';
 import {Offers} from '../../types/offer';
+import {calcRatingWidth} from '../../utils';
 
 type FavoritesProps = {
   favoriteOffers: Offers;
 }
-
-const calcRatingWidth = (rating: number) => `${Math.round(rating) * 20}%`;
 
 function Favorites({favoriteOffers}: FavoritesProps): JSX.Element {
   return (
