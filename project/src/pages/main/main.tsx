@@ -1,14 +1,27 @@
+import {useState} from 'react';
 import Header from '../../components/header/header';
 import Locations from '../../components/locations/locations';
 import OffersList from '../../components/offers-list/offers-list';
-import {Offers} from '../../types/offer';
+import {Offers, Offer, City} from '../../types/offer';
+import Map from '../../components/map/map';
 
 type MainProps = {
   rentalOffersCount: number;
   offers: Offers;
+  city: City;
 }
 
-function Main({rentalOffersCount, offers}: MainProps): JSX.Element {
+function Main({rentalOffersCount, offers, city}: MainProps): JSX.Element {
+
+  const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(
+    undefined
+  );
+
+  const handlePlaceCardMouseOver = (id: number) => {
+    const currentOffer = offers.find((offer) => offer.id === id);
+    setSelectedOffer(currentOffer);
+  };
+
   return (
     <div className='page page--gray page--main'>
       <Header />
@@ -36,10 +49,19 @@ function Main({rentalOffersCount, offers}: MainProps): JSX.Element {
                   <li className='places__option' tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OffersList offers={offers}/>
+              <OffersList
+                offers={offers}
+                handlePlaceCardMouseOver={handlePlaceCardMouseOver}
+              />
             </section>
             <div className='cities__right-section'>
-              <section className='cities__map map'></section>
+              <section className='cities__map map'>
+                <Map
+                  city={city}
+                  offers={offers}
+                  selectedOffer={selectedOffer}
+                />
+              </section>
             </div>
           </div>
         </div>
