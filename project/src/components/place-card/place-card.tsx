@@ -4,10 +4,11 @@ import {calcRatingWidth} from '../../utils';
 
 type PlaceCardProps = {
   offer: Offer;
-  handlePlaceCardMouseOver: (id: number) => void;
+  handlePlaceCardMouseOver?: (id: number) => void;
+  placeCardClass: string;
 }
 
-function PlaceCard({offer, handlePlaceCardMouseOver}: PlaceCardProps): JSX.Element {
+function PlaceCard({offer, handlePlaceCardMouseOver, placeCardClass}: PlaceCardProps): JSX.Element {
   const {
     price,
     previewImage,
@@ -20,8 +21,8 @@ function PlaceCard({offer, handlePlaceCardMouseOver}: PlaceCardProps): JSX.Eleme
 
   return (
     <article
-      className='cities__card place-card'
-      onMouseOver={() => handlePlaceCardMouseOver(id)}
+      className={placeCardClass}
+      onMouseOver={() => handlePlaceCardMouseOver && handlePlaceCardMouseOver(id)}
     >
       {isPremium ?
         <div className='place-card__mark'>

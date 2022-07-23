@@ -23,3 +23,10 @@ export enum Cities {
   Hamburg = 'Hamburg',
   Dusseldorf = 'Dusseldorf',
 }
+
+export enum PlaceClasses {
+  MainPlacesListClass = 'cities__places-list places__list tabs__content',
+  NeighbourhoodPlacesListClass = 'near-places__list places__list',
+  MainPlaceCardClass = 'cities__card place-card',
+  NeighbourhoodPlaceCardClass = 'near-places__card place-card',
+}
