@@ -1,31 +1,36 @@
 import {useRef, useEffect} from 'react';
 import leaflet from 'leaflet';
 import useMap from '../../hooks/useMap';
-import {Offers, Offer, City} from '../../types/offer';
+import {Offers, Offer} from '../../types/offer';
+import {useAppSelector} from '../../hooks';
 import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../consts';
+import {getCityData} from '../../utils';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
-  city: City;
   offers: Offers;
   selectedOffer?: Offer | undefined;
 };
 
 const defaultCustomIcon = leaflet.icon({
   iconUrl: URL_MARKER_DEFAULT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconSize: [26, 39],
+  iconAnchor: [13, 39],
 });
 
 const currentCustomIcon = leaflet.icon({
   iconUrl: URL_MARKER_CURRENT,
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconSize: [26, 39],
+  iconAnchor: [13, 39],
 });
 
 function Map(props: MapProps): JSX.Element {
 
-  const {city, offers, selectedOffer} = props;
+  const {selectedOffer, offers} = props;
+
+  const selectedCity = useAppSelector((state) => state.selectedCity);
+
+  const city = getCityData(offers, selectedCity);
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);

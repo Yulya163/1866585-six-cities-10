@@ -7,42 +7,23 @@ import Favorites from '../../pages/favorites/favorites';
 import Login from '../../pages/login/login';
 import Room from '../../pages/room/room';
 import PrivateRoute from '../private-route/private-rout';
-import {Offers, City} from '../../types/offer';
+import {Offers} from '../../types/offer';
+import {useAppSelector} from '../../hooks';
 
 type AppProps = {
-  rentalOffersCount: number;
   offers: Offers;
 }
 
-const Setting = {
-  CURRENT_CITY: 'Amsterdam',
-};
+function App({offers}: AppProps): JSX.Element {
 
-const getOffersByCity = (offers: Offers, cityName: string) => offers.filter((offer) => offer.city.name === cityName);
-
-const getCityData = (offers: Offers, cityName: string) => {
-  const offersByCity = offers.filter((offer) => offer.city.name === cityName);
-  return offersByCity[0].city;
-};
-
-function App({rentalOffersCount, offers}: AppProps): JSX.Element {
-
-  const city: City = getCityData(offers, Setting.CURRENT_CITY);
-  const offersByCity: Offers = getOffersByCity(offers, Setting.CURRENT_CITY);
+  const offersByCity = useAppSelector((state) => state.offers);
 
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={
-            offersByCity.length ?
-              <Main
-                rentalOffersCount={rentalOffersCount}
-                offers={offers}
-                city={city}
-              /> : <MainEmpty />
-          }
+          element={offersByCity.length ? <Main /> : <MainEmpty />}
         />
         <Route
           path={AppRoute.Login}
@@ -62,8 +43,7 @@ function App({rentalOffersCount, offers}: AppProps): JSX.Element {
           path={AppRoute.Room}
           element={
             <Room
-              offers={offers}
-              city={city}
+              offers={offersByCity}
             />
           }
         />

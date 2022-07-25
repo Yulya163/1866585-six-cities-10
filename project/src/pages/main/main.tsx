@@ -2,24 +2,23 @@ import {useState} from 'react';
 import Header from '../../components/header/header';
 import Locations from '../../components/locations/locations';
 import OffersList from '../../components/offers-list/offers-list';
-import {Offers, Offer, City} from '../../types/offer';
+import {Offer} from '../../types/offer';
 import Map from '../../components/map/map';
 import {PlaceClasses} from '../../consts';
+import {cities} from '../../consts';
+import {useAppSelector} from '../../hooks';
 
-type MainProps = {
-  rentalOffersCount: number;
-  offers: Offers;
-  city: City;
-}
-
-function Main({rentalOffersCount, offers, city}: MainProps): JSX.Element {
+function Main(): JSX.Element {
 
   const [selectedOffer, setSelectedOffer] = useState<Offer | undefined>(
     undefined
   );
 
-  const handlePlaceCardMouseOver = (id: number) => {
-    const currentOffer = offers.find((offer) => offer.id === id);
+  const offersByCity = useAppSelector((state) => state.offers);
+  const selectedCity = useAppSelector((state) => state.selectedCity);
+
+  const onPlaceCardMouseOver = (id: number) => {
+    const currentOffer = offersByCity.find((offer) => offer.id === id);
     setSelectedOffer(currentOffer);
   };
 
@@ -29,12 +28,12 @@ function Main({rentalOffersCount, offers, city}: MainProps): JSX.Element {
 
       <main className='page__main page__main--index'>
         <h1 className='visually-hidden'>Cities</h1>
-        <Locations />
+        <Locations cities={cities}/>
         <div className='cities'>
           <div className='cities__places-container container'>
             <section className='cities__places places'>
               <h2 className='visually-hidden'>Places</h2>
-              <b className='places__found'>{rentalOffersCount} places to stay in Amsterdam</b>
+              <b className='places__found'>{offersByCity.length} places to stay in {selectedCity}</b>
               <form className='places__sorting' action='#' method='get'>
                 <span className='places__sorting-caption'>Sort by</span>
                 <span className='places__sorting-type' tabIndex={0}>
@@ -51,8 +50,8 @@ function Main({rentalOffersCount, offers, city}: MainProps): JSX.Element {
                 </ul>
               </form>
               <OffersList
-                offers={offers}
-                handlePlaceCardMouseOver={handlePlaceCardMouseOver}
+                offers={offersByCity}
+                onPlaceCardMouseOver={onPlaceCardMouseOver}
                 placeListClass={PlaceClasses.MainPlacesListClass}
                 placeCardClass={PlaceClasses.MainPlaceCardClass}
               />
@@ -60,8 +59,7 @@ function Main({rentalOffersCount, offers, city}: MainProps): JSX.Element {
             <div className='cities__right-section'>
               <section className='cities__map map'>
                 <Map
-                  city={city}
-                  offers={offers}
+                  offers={offersByCity}
                   selectedOffer={selectedOffer}
                 />
               </section>

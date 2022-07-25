@@ -3,12 +3,12 @@ import {Offers} from '../../types/offer';
 
 type OffersListProps = {
   offers: Offers;
-  handlePlaceCardMouseOver?: (id: number) => void;
+  onPlaceCardMouseOver?: (id: number) => void;
   placeListClass: string;
   placeCardClass: string;
 }
 
-function OffersList({offers, handlePlaceCardMouseOver, placeListClass, placeCardClass}: OffersListProps): JSX.Element {
+function OffersList({offers, onPlaceCardMouseOver, placeListClass, placeCardClass}: OffersListProps): JSX.Element {
 
   return (
     <div className={placeListClass}>
@@ -16,7 +16,7 @@ function OffersList({offers, handlePlaceCardMouseOver, placeListClass, placeCard
         <PlaceCard
           key={offer.id}
           offer={offer}
-          handlePlaceCardMouseOver={handlePlaceCardMouseOver && handlePlaceCardMouseOver}
+          onPlaceCardMouseOver={onPlaceCardMouseOver}
           placeCardClass={placeCardClass}
         />
       ))}
