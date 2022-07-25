@@ -2,7 +2,7 @@ import { useLocation } from 'react-router-dom';
 import Header from '../../components/header/header';
 import ReviewForm from '../../components/review-form/review-form';
 import ReviewsList from '../../components/reviews-list/reviews-list';
-import {Offers, Offer, City} from '../../types/offer';
+import {Offers, Offer} from '../../types/offer';
 import {reviews} from '../../mocks/reviews';
 import {calcRatingWidth} from '../../utils';
 import Map from '../../components/map/map';
@@ -11,17 +11,16 @@ import {PlaceClasses} from '../../consts';
 
 type RoomProps = {
   offers: Offers;
-  city: City;
 }
 
-function Room({offers, city}: RoomProps): JSX.Element {
+function Room({offers}: RoomProps): JSX.Element {
   const location = useLocation();
 
   const urlId = Number(location.pathname.split('/').slice(-1));
 
   const offer: Offer | undefined = offers.find((item) => item.id === urlId);
 
-  const offerNeighbourhood = offers.slice(0, 3);
+  const offerNeighbourhood = offers.length > 3 ? offers.slice(0, 3) : offers;
 
   return (
     <div className='page'>
@@ -121,7 +120,6 @@ function Room({offers, city}: RoomProps): JSX.Element {
           </div>
           <section className='property__map map'>
             <Map
-              city={city}
               offers={offerNeighbourhood}
             />
           </section>
