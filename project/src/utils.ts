@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import {Offers} from './types/offer';
+import {Offers, Offer} from './types/offer';
 
 const calcRatingWidth = (rating: number) => `${Math.round(rating) * 20}%`;
 
@@ -12,4 +12,20 @@ const getCityData = (offers: Offers, cityName: string) => {
   return offersByCity[0].city;
 };
 
-export {calcRatingWidth, humanizeDate, getOffersByCity, getCityData};
+const getWeightForPriceUp = (priceA: number, priceB: number) => priceA - priceB;
+const getWeightForPriceDown = (priceA: number, priceB: number) => priceB - priceA;
+const getWeightForTopRatedFirst = (ratedA: number, ratedB: number) => ratedB - ratedA;
+
+const sortPriceUp = (offerA: Offer, offerB: Offer) => getWeightForPriceUp(offerA.price, offerB.price);
+const sortPriceDown = (offerA: Offer, offerB: Offer) => getWeightForPriceDown(offerA.price, offerB.price);
+const sortTopRatedFirst = (offerA: Offer, offerB: Offer) => getWeightForTopRatedFirst(offerA.rating, offerB.rating);
+
+export {
+  calcRatingWidth,
+  humanizeDate,
+  getOffersByCity,
+  getCityData,
+  sortPriceUp,
+  sortPriceDown,
+  sortTopRatedFirst
+};

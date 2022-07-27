@@ -8,13 +8,15 @@ import Login from '../../pages/login/login';
 import Room from '../../pages/room/room';
 import PrivateRoute from '../private-route/private-rout';
 import {Offers} from '../../types/offer';
+import {Reviews} from '../../types/review';
 import {useAppSelector} from '../../hooks';
 
 type AppProps = {
   offers: Offers;
+  reviews: Reviews;
 }
 
-function App({offers}: AppProps): JSX.Element {
+function App({offers, reviews}: AppProps): JSX.Element {
 
   const offersByCity = useAppSelector((state) => state.offers);
 
@@ -44,6 +46,7 @@ function App({offers}: AppProps): JSX.Element {
           element={
             <Room
               offers={offersByCity}
+              reviews={reviews}
             />
           }
         />

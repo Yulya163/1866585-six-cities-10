@@ -3,7 +3,7 @@ import Header from '../../components/header/header';
 import ReviewForm from '../../components/review-form/review-form';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import {Offers, Offer} from '../../types/offer';
-import {reviews} from '../../mocks/reviews';
+import {Reviews} from '../../types/review';
 import {calcRatingWidth} from '../../utils';
 import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
@@ -11,9 +11,10 @@ import {PlaceClasses} from '../../consts';
 
 type RoomProps = {
   offers: Offers;
+  reviews: Reviews;
 }
 
-function Room({offers}: RoomProps): JSX.Element {
+function Room({offers, reviews}: RoomProps): JSX.Element {
   const location = useLocation();
 
   const urlId = Number(location.pathname.split('/').slice(-1));
