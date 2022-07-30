@@ -10,7 +10,7 @@ import OffersList from '../../components/offers-list/offers-list';
 import {PlaceClasses} from '../../consts';
 
 type RoomProps = {
-  offers: Offers;
+  offers: Offers | undefined;
   reviews: Reviews;
 }
 
@@ -19,9 +19,9 @@ function Room({offers, reviews}: RoomProps): JSX.Element {
 
   const urlId = Number(location.pathname.split('/').slice(-1));
 
-  const offer: Offer | undefined = offers.find((item) => item.id === urlId);
+  const offer: Offer | undefined = offers && offers.find((item) => item.id === urlId);
 
-  const offerNeighbourhood = offers.length > 3 ? offers.slice(0, 3) : offers;
+  const offerNeighbourhood = offers && offers.length > 3 ? offers.slice(0, 3) : offers;
 
   return (
     <div className='page'>

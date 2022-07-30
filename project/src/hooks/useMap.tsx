@@ -5,13 +5,13 @@ import leaflet from 'leaflet';
 
 function useMap(
   mapRef: MutableRefObject<HTMLElement | null>,
-  city: City
+  city: 0 | City | undefined
 ): Map | null {
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
 
   useEffect(() => {
-    if (mapRef.current !== null && !isRenderedRef.current) {
+    if (mapRef.current !== null && !isRenderedRef.current && city) {
       const instance = leaflet.map(mapRef.current, {
         center: {
           lat: city.location.latitude,
@@ -32,7 +32,7 @@ function useMap(
       setMap(instance);
       isRenderedRef.current = true;
     }
-    map && map.setView({lat: city.location.latitude, lng: city.location.longitude}, city.location.zoom);
+    city && map && map.setView({lat: city.location.latitude, lng: city.location.longitude}, city.location.zoom);
 
   }, [mapRef, map, city]);
 

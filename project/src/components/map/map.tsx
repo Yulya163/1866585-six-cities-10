@@ -8,7 +8,7 @@ import {getCityData} from '../../utils';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
-  offers: Offers;
+  offers: Offers | undefined;
   selectedOffer?: Offer | undefined;
 };
 
@@ -36,7 +36,7 @@ function Map(props: MapProps): JSX.Element {
   const map = useMap(mapRef, city);
 
   useEffect(() => {
-    if (map) {
+    if (map && offers) {
       offers.forEach((offer) => {
         leaflet
           .marker({
