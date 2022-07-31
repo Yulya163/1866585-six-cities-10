@@ -14,11 +14,10 @@ function Main(): JSX.Element {
     undefined
   );
 
-  const offers = useAppSelector((state) => state.offers);
-  const selectedCity = useAppSelector((state) => state.selectedCity);
+  const {offersByCity, selectedCity} = useAppSelector((state) => state);
 
   const onPlaceCardMouseOver = (id: number) => {
-    const currentOffer = offers.find((offer) => offer.id === id);
+    const currentOffer = offersByCity && offersByCity.find((offer) => offer.id === id);
     setSelectedOffer(currentOffer);
   };
 
@@ -33,10 +32,10 @@ function Main(): JSX.Element {
           <div className='cities__places-container container'>
             <section className='cities__places places'>
               <h2 className='visually-hidden'>Places</h2>
-              <b className='places__found'>{offers.length} places to stay in {selectedCity}</b>
+              <b className='places__found'>{offersByCity && offersByCity.length} places to stay in {selectedCity}</b>
               <SortingOptions />
               <OffersList
-                offers={offers}
+                offers={offersByCity}
                 onPlaceCardMouseOver={onPlaceCardMouseOver}
                 placeListClass={PlaceClasses.MainPlacesListClass}
                 placeCardClass={PlaceClasses.MainPlaceCardClass}
@@ -45,7 +44,7 @@ function Main(): JSX.Element {
             <div className='cities__right-section'>
               <section className='cities__map map'>
                 <Map
-                  offers={offers}
+                  offers={offersByCity}
                   selectedOffer={selectedOffer}
                 />
               </section>

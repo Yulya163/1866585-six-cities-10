@@ -1,3 +1,5 @@
+export const TIMEOUT_SHOW_ERROR = 5000;
+
 export enum AppRoute {
   Main = '/',
   Login = '/login',
@@ -36,4 +38,8 @@ export enum Options {
   LowToHigh = 'Price: low to high',
   HighToLow = 'Price: high to low',
   TopRatedFirst = 'Top rated first',
+}
+
+export enum APIRoute {
+  Offers = '/hotels',
 }

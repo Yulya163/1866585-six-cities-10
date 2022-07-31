@@ -4,28 +4,34 @@ import Main from '../../pages/main/main';
 import MainEmpty from '../../pages/main-empty/main-empty';
 import NotFound from '../../pages/404-not-found/404-not-found';
 import Favorites from '../../pages/favorites/favorites';
+import FavoritesEmpty from '../../pages/favorites-empty/favorites-empty';
 import Login from '../../pages/login/login';
 import Room from '../../pages/room/room';
 import PrivateRoute from '../private-route/private-rout';
-import {Offers} from '../../types/offer';
 import {Reviews} from '../../types/review';
 import {useAppSelector} from '../../hooks';
+import LoadingScreen from '../../pages/loading-screen/loading-screen';
 
 type AppProps = {
-  offers: Offers;
   reviews: Reviews;
 }
 
-function App({offers, reviews}: AppProps): JSX.Element {
+function App({reviews}: AppProps): JSX.Element {
 
-  const offersByCity = useAppSelector((state) => state.offers);
+  const {isDataLoaded, offersByCity} = useAppSelector((state) => state);
+
+  if (isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={offersByCity.length ? <Main /> : <MainEmpty />}
+          element={offersByCity && offersByCity.length ? <Main /> : <MainEmpty />}
         />
         <Route
           path={AppRoute.Login}
@@ -35,9 +41,11 @@ function App({offers, reviews}: AppProps): JSX.Element {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute
-              authorizationStatus={AuthorizationStatus.NoAuth}
+              authorizationStatus={AuthorizationStatus.Auth}
             >
-              <Favorites favoriteOffers={offers}/>
+              {offersByCity && offersByCity.length ?
+                <Favorites favoriteOffers={offersByCity}/> :
+                <FavoritesEmpty />}
             </PrivateRoute>
           }
         />
