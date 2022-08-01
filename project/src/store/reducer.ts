@@ -1,8 +1,7 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changeCityAction, setOffersByCityAction, changeOptionAction, setOffersByOptionAction, loadOffers, setDataLoadedStatus, setError} from './action';
-//import {offers} from '../mocks/offers';
+import {changeCityAction, setOffersByCityAction, changeOptionAction, setOffersByOptionAction, loadOffers, requireAuthorization, setDataLoadedStatus, setError} from './action';
 import {getOffersByCity, sortPriceUp, sortPriceDown, sortTopRatedFirst} from '../utils';
-import {Options, Cities} from '../consts';
+import {Options, Cities, AuthorizationStatus} from '../consts';
 import {Offers} from '../types/offer';
 
 type InitalState = {
@@ -10,6 +9,7 @@ type InitalState = {
   selectedOption: string,
   offers: Offers | undefined,
   offersByCity: Offers | undefined,
+  authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,
   error: string | null,
 }
@@ -19,6 +19,7 @@ const initialState: InitalState = {
   selectedOption: Options.Popular,
   offers: [],
   offersByCity: [],
+  authorizationStatus: AuthorizationStatus.Unknown,
   isDataLoaded: false,
   error: null,
 };
@@ -55,6 +56,9 @@ const reducer = createReducer(initialState, (builder) => {
         default:
           state.offersByCity = getOffersByCity(state.offers, state.selectedCity);
       }
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
     })
     .addCase(setDataLoadedStatus, (state, action) => {
       state.isDataLoaded = action.payload;

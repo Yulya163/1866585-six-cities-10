@@ -36,6 +36,7 @@ function Map(props: MapProps): JSX.Element {
   const map = useMap(mapRef, city);
 
   useEffect(() => {
+
     if (map && offers) {
       offers.forEach((offer) => {
         leaflet
