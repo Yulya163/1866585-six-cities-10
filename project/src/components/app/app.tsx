@@ -7,7 +7,8 @@ import Favorites from '../../pages/favorites/favorites';
 import FavoritesEmpty from '../../pages/favorites-empty/favorites-empty';
 import Login from '../../pages/login/login';
 import Room from '../../pages/room/room';
-import PrivateRoute from '../private-route/private-rout';
+import PrivateRoute from '../private-route/private-route';
+import PrivateLoginRoute from '../private-login-route/private-login-route';
 import {Reviews} from '../../types/review';
 import {useAppSelector} from '../../hooks';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
@@ -38,14 +39,16 @@ function App({reviews}: AppProps): JSX.Element {
         />
         <Route
           path={AppRoute.Login}
-          element={<Login />}
+          element={
+            <PrivateLoginRoute>
+              <Login />
+            </PrivateLoginRoute>
+          }
         />
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute
-              authorizationStatus={authorizationStatus}
-            >
+            <PrivateRoute>
               {offersByCity && offersByCity.length ?
                 <Favorites favoriteOffers={offersByCity}/> :
                 <FavoritesEmpty />}
