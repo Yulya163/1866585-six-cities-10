@@ -1,6 +1,7 @@
 import {useRef, FormEvent} from 'react';
 import {useAppDispatch} from '../../hooks';
 import {loginAction} from '../../store/api-actions';
+import {setUserName} from '../../store/action';
 import {AuthData} from '../../types/auth-data';
 import {Link} from 'react-router-dom';
 import Logo from '../../components/logo/logo';
@@ -12,6 +13,7 @@ function Login(): JSX.Element {
   const dispatch = useAppDispatch();
 
   const onSubmit = (authData: AuthData) => {
+    dispatch(setUserName(authData.login));
     dispatch(loginAction(authData));
   };
 

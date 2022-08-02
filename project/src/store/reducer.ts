@@ -1,5 +1,5 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changeCityAction, setOffersByCityAction, changeOptionAction, setOffersByOptionAction, loadOffers, requireAuthorization, setDataLoadedStatus, setError} from './action';
+import {changeCity, setOffersByCity, changeOption, setOffersByOption, loadOffers, requireAuthorization, setUserName, setDataLoadedStatus, setError} from './action';
 import {getOffersByCity, sortPriceUp, sortPriceDown, sortTopRatedFirst} from '../utils';
 import {Options, Cities, AuthorizationStatus} from '../consts';
 import {Offers} from '../types/offer';
@@ -10,6 +10,7 @@ type InitalState = {
   offers: Offers | undefined,
   offersByCity: Offers | undefined,
   authorizationStatus: AuthorizationStatus,
+  userName: string | null,
   isDataLoaded: boolean,
   error: string | null,
 }
@@ -20,6 +21,7 @@ const initialState: InitalState = {
   offers: [],
   offersByCity: [],
   authorizationStatus: AuthorizationStatus.Unknown,
+  userName: null,
   isDataLoaded: false,
   error: null,
 };
@@ -30,16 +32,16 @@ const reducer = createReducer(initialState, (builder) => {
       state.offers = action.payload;
       state.offersByCity = getOffersByCity(action.payload, Cities.Paris);
     })
-    .addCase(changeCityAction, (state, action) => {
+    .addCase(changeCity, (state, action) => {
       state.selectedCity = action.payload;
     })
-    .addCase(setOffersByCityAction, (state) => {
+    .addCase(setOffersByCity, (state) => {
       state.offersByCity = getOffersByCity(state.offers, state.selectedCity);
     })
-    .addCase(changeOptionAction, (state, action) => {
+    .addCase(changeOption, (state, action) => {
       state.selectedOption = action.payload;
     })
-    .addCase(setOffersByOptionAction, (state) => {
+    .addCase(setOffersByOption, (state) => {
       switch (state.selectedOption) {
         case Options.Popular:
           state.offersByCity = getOffersByCity(state.offers, state.selectedCity);
@@ -59,6 +61,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(setUserName, (state, action) => {
+      state.userName = action.payload;
     })
     .addCase(setDataLoadedStatus, (state, action) => {
       state.isDataLoaded = action.payload;
