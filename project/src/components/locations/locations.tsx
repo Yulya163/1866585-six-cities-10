@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {changeCityAction, changeOptionAction, setOffersByCityAction} from '../../store/action';
+import {changeCity, changeOption, setOffersByCity} from '../../store/action';
 import {Cities, Options} from '../../consts';
 
 function Locations(): JSX.Element {
@@ -24,9 +24,9 @@ function Locations(): JSX.Element {
                   'locations__item-link tabs__item'}
                 to='/'
                 onClick={() => {
-                  dispatch(changeCityAction(city));
-                  dispatch(setOffersByCityAction());
-                  dispatch(changeOptionAction(Options.Popular));
+                  dispatch(changeCity(city));
+                  dispatch(setOffersByCity());
+                  dispatch(changeOption(Options.Popular));
                 }}
               >
                 <span>{city}</span>

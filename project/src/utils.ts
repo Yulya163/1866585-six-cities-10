@@ -1,5 +1,9 @@
 import dayjs from 'dayjs';
 import {Offers, Offer} from './types/offer';
+import {AuthorizationStatus} from './consts';
+
+export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
+  authorizationStatus === AuthorizationStatus.Unknown;
 
 const calcRatingWidth = (rating: number) => `${Math.round(rating) * 20}%`;
 

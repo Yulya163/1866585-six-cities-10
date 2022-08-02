@@ -1,8 +1,7 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changeCityAction, setOffersByCityAction, changeOptionAction, setOffersByOptionAction, loadOffers, setDataLoadedStatus, setError} from './action';
-//import {offers} from '../mocks/offers';
+import {changeCity, setOffersByCity, changeOption, setOffersByOption, loadOffers, requireAuthorization, setDataLoadedStatus, setError} from './action';
 import {getOffersByCity, sortPriceUp, sortPriceDown, sortTopRatedFirst} from '../utils';
-import {Options, Cities} from '../consts';
+import {Options, Cities, AuthorizationStatus} from '../consts';
 import {Offers} from '../types/offer';
 
 type InitalState = {
@@ -10,6 +9,8 @@ type InitalState = {
   selectedOption: string,
   offers: Offers | undefined,
   offersByCity: Offers | undefined,
+  authorizationStatus: AuthorizationStatus,
+  userName: string | null,
   isDataLoaded: boolean,
   error: string | null,
 }
@@ -19,6 +20,8 @@ const initialState: InitalState = {
   selectedOption: Options.Popular,
   offers: [],
   offersByCity: [],
+  authorizationStatus: AuthorizationStatus.Unknown,
+  userName: null,
   isDataLoaded: false,
   error: null,
 };
@@ -29,16 +32,16 @@ const reducer = createReducer(initialState, (builder) => {
       state.offers = action.payload;
       state.offersByCity = getOffersByCity(action.payload, Cities.Paris);
     })
-    .addCase(changeCityAction, (state, action) => {
+    .addCase(changeCity, (state, action) => {
       state.selectedCity = action.payload;
     })
-    .addCase(setOffersByCityAction, (state) => {
+    .addCase(setOffersByCity, (state) => {
       state.offersByCity = getOffersByCity(state.offers, state.selectedCity);
     })
-    .addCase(changeOptionAction, (state, action) => {
+    .addCase(changeOption, (state, action) => {
       state.selectedOption = action.payload;
     })
-    .addCase(setOffersByOptionAction, (state) => {
+    .addCase(setOffersByOption, (state) => {
       switch (state.selectedOption) {
         case Options.Popular:
           state.offersByCity = getOffersByCity(state.offers, state.selectedCity);
@@ -55,6 +58,9 @@ const reducer = createReducer(initialState, (builder) => {
         default:
           state.offersByCity = getOffersByCity(state.offers, state.selectedCity);
       }
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
     })
     .addCase(setDataLoadedStatus, (state, action) => {
       state.isDataLoaded = action.payload;

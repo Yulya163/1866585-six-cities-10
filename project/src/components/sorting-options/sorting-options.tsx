@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {Options} from '../../consts';
-import {changeOptionAction, setOffersByOptionAction} from '../../store/action';
+import {changeOption, setOffersByOption} from '../../store/action';
 
 function SortingOptions(): JSX.Element {
 
@@ -41,9 +41,9 @@ function SortingOptions(): JSX.Element {
                   key={option}
                   tabIndex={0}
                   onClick={() => {
-                    dispatch(changeOptionAction(option));
+                    dispatch(changeOption(option));
                     setIsOptionsShow((prevItem) => !prevItem);
-                    dispatch(setOffersByOptionAction());
+                    dispatch(setOffersByOption());
                   }}
                 >
                   {option}

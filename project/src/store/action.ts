@@ -1,35 +1,31 @@
 import {createAction} from '@reduxjs/toolkit';
 import {Offers} from '../types/offer';
+import {AppRoute, AuthorizationStatus} from '../consts';
 
-export const Action = {
-  CHANGE_CITY: 'CHANGE_CITY',
-  SET_OFFERS_BY_CITY: 'GET_OFFERS_BY_CITY',
-  CHANGE_SORTING: 'CHANGE_SORTING',
-  SET_OFFERS_BY_OPTION: 'SET_OFFERS_BY_OPTION',
-  LOAD_OFFERS: 'LOAD_OFFERS',
-  SET_ERROR: 'SET_ERROR',
-  CLEAR_ERROR: 'CLEAR_ERROR',
-  SET_DATA_LOADED_STATUS: 'SET_DATA_LOADED_STATUS',
-};
-
-export const changeCityAction = createAction(Action.CHANGE_CITY, (value) => (
+export const changeCity = createAction('city/changeCity', (value) => (
   {
     payload: value,
   }
 ));
 
-export const setOffersByCityAction = createAction(Action.SET_OFFERS_BY_CITY);
+export const setOffersByCity = createAction('city/setOffersByCity');
 
-export const changeOptionAction = createAction(Action.CHANGE_SORTING, (value) => (
+export const changeOption = createAction('city/changeOption', (value) => (
   {
     payload: value,
   }
 ));
 
-export const setOffersByOptionAction = createAction(Action.SET_OFFERS_BY_OPTION);
+export const setOffersByOption = createAction('city/setOffersByOption');
 
-export const loadOffers = createAction<Offers>(Action.LOAD_OFFERS);
+export const loadOffers = createAction<Offers>('data/loadOffers');
 
-export const setDataLoadedStatus = createAction<boolean>(Action.SET_DATA_LOADED_STATUS);
+export const setDataLoadedStatus = createAction<boolean>('data/setDataLoadedStatus');
 
-export const setError = createAction<string | null>(Action.SET_ERROR);
+export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
+
+// export const setUserName = createAction<string | null>('user/setUserName');
+
+export const setError = createAction<string | null>('city/setError');
+
+export const redirectToRoute = createAction<AppRoute>('city/redirectToRoute');

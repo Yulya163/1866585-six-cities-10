@@ -1,5 +1,5 @@
-import {Route, BrowserRouter, Routes} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../consts';
+import {Route, Routes} from 'react-router-dom';
+import {AppRoute} from '../../consts';
 import Main from '../../pages/main/main';
 import MainEmpty from '../../pages/main-empty/main-empty';
 import NotFound from '../../pages/404-not-found/404-not-found';
@@ -7,10 +7,14 @@ import Favorites from '../../pages/favorites/favorites';
 import FavoritesEmpty from '../../pages/favorites-empty/favorites-empty';
 import Login from '../../pages/login/login';
 import Room from '../../pages/room/room';
-import PrivateRoute from '../private-route/private-rout';
+import PrivateRoute from '../private-route/private-route';
+import PrivateLoginRoute from '../private-login-route/private-login-route';
 import {Reviews} from '../../types/review';
 import {useAppSelector} from '../../hooks';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
+import HistoryRouter from '../history-route/history-route';
+import {isCheckedAuth} from '../../utils';
+import browserHistory from '../../browser-history';
 
 type AppProps = {
   reviews: Reviews;
@@ -18,16 +22,16 @@ type AppProps = {
 
 function App({reviews}: AppProps): JSX.Element {
 
-  const {isDataLoaded, offersByCity} = useAppSelector((state) => state);
+  const {authorizationStatus, isDataLoaded, offersByCity} = useAppSelector((state) => state);
 
-  if (isDataLoaded) {
+  if (isCheckedAuth(authorizationStatus) || isDataLoaded) {
     return (
       <LoadingScreen />
     );
   }
 
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route
           path={AppRoute.Main}
@@ -35,14 +39,16 @@ function App({reviews}: AppProps): JSX.Element {
         />
         <Route
           path={AppRoute.Login}
-          element={<Login />}
+          element={
+            <PrivateLoginRoute>
+              <Login />
+            </PrivateLoginRoute>
+          }
         />
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute
-              authorizationStatus={AuthorizationStatus.Auth}
-            >
+            <PrivateRoute>
               {offersByCity && offersByCity.length ?
                 <Favorites favoriteOffers={offersByCity}/> :
                 <FavoritesEmpty />}
@@ -63,7 +69,7 @@ function App({reviews}: AppProps): JSX.Element {
           element={<NotFound />}
         />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 
