@@ -3,9 +3,10 @@ import Logo from '../logo/logo';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import {AuthorizationStatus} from '../../consts';
 import {logoutAction} from '../../store/api-actions';
+import {getUserName, dropUserName} from '../../services/userName';
 
 function Header(): JSX.Element {
-  const {authorizationStatus, userName} = useAppSelector((state) => state);
+  const {authorizationStatus} = useAppSelector((state) => state);
 
   const dispatch = useAppDispatch();
 
@@ -24,7 +25,7 @@ function Header(): JSX.Element {
                     <Link className='header__nav-link header__nav-link--profile' to='/favorites'>
                       <div className='header__avatar-wrapper user__avatar-wrapper'>
                       </div>
-                      <span className='header__user-name user__name'>{userName}</span>
+                      <span className='header__user-name user__name'>{getUserName()}</span>
                       <span className='header__favorite-count'>3</span>
                     </Link>
                   </li>
@@ -34,6 +35,7 @@ function Header(): JSX.Element {
                       onClick={(evt) => {
                         evt.preventDefault();
                         dispatch(logoutAction());
+                        dropUserName();
                       }}
                       to='/'
                     >
