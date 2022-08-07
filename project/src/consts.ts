@@ -1,5 +1,10 @@
 export const TIMEOUT_SHOW_ERROR = 3000;
 
+export const MAX_REVIEWS_NUMBER = 10;
+
+export const MAX_COMMENT_VALUE_LENGTH = 300;
+export const MIN_COMMENT_VALUE_LENGTH = 50;
+
 export enum AppRoute {
   Main = '/',
   Login = '/login',
@@ -44,4 +49,5 @@ export enum APIRoute {
   Offers = '/hotels',
   Login = '/login',
   Logout = '/logout',
+  Comments = '/comments',
 }

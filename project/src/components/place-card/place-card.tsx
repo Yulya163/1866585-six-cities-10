@@ -8,6 +8,7 @@ type PlaceCardProps = {
   placeCardClass: string;
 }
 
+
 function PlaceCard({offer, onPlaceCardMouseOver, placeCardClass}: PlaceCardProps): JSX.Element {
   const {
     price,
@@ -54,7 +55,7 @@ function PlaceCard({offer, onPlaceCardMouseOver, placeCardClass}: PlaceCardProps
           </div>
         </div>
         <h2 className='place-card__name'>
-          <Link to='/offer'>{title}</Link>
+          <Link to={`/offer/${id}`}>{title}</Link>
         </h2>
         <p className='place-card__type'>{type}</p>
       </div>
