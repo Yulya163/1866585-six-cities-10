@@ -1,11 +1,11 @@
-import {Review} from '../../types/review';
+import {Comment} from '../../types/comment';
 import {calcRatingWidth, humanizeDate} from '../../utils';
 
 type ReviewProps = {
-  review: Review;
+  review: Comment;
 }
 
-function ReviewComment({review}: ReviewProps): JSX.Element {
+function Review({review}: ReviewProps): JSX.Element {
 
   const {
     user,
@@ -43,4 +43,4 @@ function ReviewComment({review}: ReviewProps): JSX.Element {
     </li>
   );
 }
-export default ReviewComment;
+export default Review;

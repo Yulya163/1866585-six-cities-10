@@ -2,12 +2,14 @@ import {createReducer} from '@reduxjs/toolkit';
 import {changeCity, setOffersByCity, changeOption, setOffersByOption, loadOffers, requireAuthorization, setDataLoadedStatus, setError} from './action';
 import {getOffersByCity, sortPriceUp, sortPriceDown, sortTopRatedFirst} from '../utils';
 import {Options, Cities, AuthorizationStatus} from '../consts';
-import {Offers} from '../types/offer';
+import {Offers, Offer} from '../types/offer';
 
 type InitalState = {
   selectedCity: string,
   selectedOption: string,
   offers: Offers | undefined,
+  offer: Offer | undefined,
+  offersNearby: Offers | undefined,
   offersByCity: Offers | undefined,
   authorizationStatus: AuthorizationStatus,
   userName: string | null,
@@ -19,6 +21,8 @@ const initialState: InitalState = {
   selectedCity: Cities.Paris,
   selectedOption: Options.Popular,
   offers: [],
+  offer: undefined,
+  offersNearby: [],
   offersByCity: [],
   authorizationStatus: AuthorizationStatus.Unknown,
   userName: null,

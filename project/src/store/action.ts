@@ -24,8 +24,8 @@ export const setDataLoadedStatus = createAction<boolean>('data/setDataLoadedStat
 
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
 
-// export const setUserName = createAction<string | null>('user/setUserName');
-
 export const setError = createAction<string | null>('city/setError');
 
 export const redirectToRoute = createAction<AppRoute>('city/redirectToRoute');
+
+export const setCurrentOfferId = createAction<number | null>('city/setCurrentOfferId');
