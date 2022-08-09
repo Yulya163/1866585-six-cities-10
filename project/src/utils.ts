@@ -35,11 +35,11 @@ const getSortedOffers = (offers: Offers | undefined, selectedOption: string) => 
     case Options.Popular:
       return offers;
     case Options.LowToHigh:
-      return offers && offers.sort(sortPriceUp);
+      return offers && offers.slice().sort(sortPriceUp);
     case Options.HighToLow:
-      return offers && offers.sort(sortPriceDown);
+      return offers && offers.slice().sort(sortPriceDown);
     case Options.TopRatedFirst:
-      return offers && offers.sort(sortTopRatedFirst);
+      return offers && offers.slice().sort(sortTopRatedFirst);
     default:
       return offers;
   }

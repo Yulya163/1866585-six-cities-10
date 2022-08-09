@@ -7,9 +7,8 @@ import {Offer} from '../../types/offer';
 import Map from '../../components/map/map';
 import {PlaceClasses} from '../../consts';
 import {useAppSelector} from '../../hooks';
-import {getOffersByCity, getSortedOffers} from '../../utils';
-import {getOffers} from '../../store/offer-data/selectors';
-import {getSelectedCity, getSelectedOption} from '../../store/offer-process/selectors';
+import {getSelectedCity} from '../../store/offer-process/selectors';
+import {filterOffers} from '../../store/offer-data/selectors';
 
 function Main(): JSX.Element {
 
@@ -17,13 +16,9 @@ function Main(): JSX.Element {
     undefined
   );
 
-  const offers = useAppSelector(getOffers);
   const selectedCity = useAppSelector(getSelectedCity);
-  const selectedOption = useAppSelector(getSelectedOption);
 
-  const offersByCity = getOffersByCity(offers, selectedCity);
-
-  const sortedOffers = getSortedOffers(offersByCity, selectedOption);
+  const offersByCity = useAppSelector(filterOffers);
 
   const onPlaceCardMouseOver = (id: number) => {
     const currentOffer = offersByCity && offersByCity.find((offer) => offer.id === id);
@@ -44,7 +39,7 @@ function Main(): JSX.Element {
               <b className='places__found'>{offersByCity && offersByCity.length} places to stay in {selectedCity}</b>
               <SortingOptions />
               <OffersList
-                offers={sortedOffers}
+                offers={offersByCity}
                 onPlaceCardMouseOver={onPlaceCardMouseOver}
                 placeListClass={PlaceClasses.MainPlacesListClass}
                 placeCardClass={PlaceClasses.MainPlaceCardClass}
