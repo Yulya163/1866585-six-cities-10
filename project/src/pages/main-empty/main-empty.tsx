@@ -1,9 +1,10 @@
 import Header from '../../components/header/header';
 import Locations from '../../components/locations/locations';
 import {useAppSelector} from '../../hooks';
+import {getSelectedCity} from '../../store/offer-process/selectors';
 
 function MainEmptyScreen(): JSX.Element {
-  const selectedCity = useAppSelector((state) => state.selectedCity);
+  const selectedCity = useAppSelector(getSelectedCity);
 
   return (
     <div className='page page--gray page--main'>

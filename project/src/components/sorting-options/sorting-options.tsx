@@ -1,13 +1,14 @@
 import {useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {Options} from '../../consts';
-import {changeOption, setOffersByOption} from '../../store/action';
+import {changeOption} from '../../store/offer-process/offer-process';
+import {getSelectedOption} from '../../store/offer-process/selectors';
 
 function SortingOptions(): JSX.Element {
 
   const [isOptionsShow, setIsOptionsShow] = useState(false);
 
-  const selectedOption = useAppSelector((state) => state.selectedOption);
+  const selectedOption = useAppSelector(getSelectedOption);
 
   const dispatch = useAppDispatch();
 
@@ -43,7 +44,6 @@ function SortingOptions(): JSX.Element {
                   onClick={() => {
                     dispatch(changeOption(option));
                     setIsOptionsShow((prevItem) => !prevItem);
-                    dispatch(setOffersByOption());
                   }}
                 >
                   {option}

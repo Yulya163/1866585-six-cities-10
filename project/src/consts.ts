@@ -1,5 +1,3 @@
-export const TIMEOUT_SHOW_ERROR = 3000;
-
 export const MAX_REVIEWS_NUMBER = 10;
 
 export const MAX_COMMENT_VALUE_LENGTH = 300;
@@ -50,4 +48,10 @@ export enum APIRoute {
   Login = '/login',
   Logout = '/logout',
   Comments = '/comments',
+}
+
+export enum NameSpace {
+  Data = 'DATA',
+  Offer = 'OFFER',
+  User = 'USER',
 }

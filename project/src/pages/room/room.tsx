@@ -16,6 +16,7 @@ import {APIRoute} from '../../consts';
 import NotFound from '../not-found/not-found';
 import {MAX_REVIEWS_NUMBER} from '../../consts';
 import {sortDayDown} from '../../utils';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
 
 function Room(): JSX.Element {
 
@@ -28,20 +29,26 @@ function Room(): JSX.Element {
   const [isData, setIsData] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const offerResult = await api.get<Offer>(`${APIRoute.Offers}/${urlId}`);
-        const offersNearbyResult = await api.get<Offers>(`${APIRoute.Offers}/${urlId}/nearby`);
-        const reviewsResult = await api.get<Comments>(`${APIRoute.Comments}/${urlId}`);
-        setOffer(offerResult.data);
-        setIsData(true);
-        setOffersNearby(offersNearbyResult.data);
-        setReviews(reviewsResult.data);
-      } catch {
-        setIsData(false);
-      }
+    let isMounted = true;
+    if (isMounted) {
+      const fetchData = async () => {
+        try {
+          const offerResult = await api.get<Offer>(`${APIRoute.Offers}/${urlId}`);
+          const offersNearbyResult = await api.get<Offers>(`${APIRoute.Offers}/${urlId}/nearby`);
+          const reviewsResult = await api.get<Comments>(`${APIRoute.Comments}/${urlId}`);
+          setOffer(offerResult.data);
+          setOffersNearby(offersNearbyResult.data);
+          setReviews(reviewsResult.data);
+          setIsData(true);
+        } catch {
+          setIsData(false);
+        }
+      };
+      fetchData();
+    }
+    return () => {
+      isMounted = false;
     };
-    fetchData();
 
   }, [urlId]);
 
@@ -51,7 +58,7 @@ function Room(): JSX.Element {
 
   const sortReviews = reviews.sort(sortDayDown).slice(0, MAX_REVIEWS_NUMBER);
 
-  const {authorizationStatus} = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   return (
     isData ?

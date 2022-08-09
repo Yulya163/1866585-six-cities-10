@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
 import {Offers, Offer} from './types/offer';
 import {AuthorizationStatus} from './consts';
-import { Comment } from './types/comment';
+import {Comment} from './types/comment';
+import {Options} from './consts';
 
 export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.Unknown;
@@ -29,6 +30,21 @@ const sortTopRatedFirst = (offerA: Offer, offerB: Offer) => getWeightForTopRated
 
 const sortDayDown = (reviewA: Comment, reviewB: Comment) => dayjs(reviewB.date).diff(dayjs(reviewA.date));
 
+const getSortedOffers = (offers: Offers | undefined, selectedOption: string) => {
+  switch (selectedOption) {
+    case Options.Popular:
+      return offers;
+    case Options.LowToHigh:
+      return offers && offers.sort(sortPriceUp);
+    case Options.HighToLow:
+      return offers && offers.sort(sortPriceDown);
+    case Options.TopRatedFirst:
+      return offers && offers.sort(sortTopRatedFirst);
+    default:
+      return offers;
+  }
+};
+
 export {
   calcRatingWidth,
   humanizeDate,
@@ -37,5 +53,6 @@ export {
   sortPriceUp,
   sortPriceDown,
   sortDayDown,
-  sortTopRatedFirst
+  sortTopRatedFirst,
+  getSortedOffers
 };
