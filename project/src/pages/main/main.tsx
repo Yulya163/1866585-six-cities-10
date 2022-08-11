@@ -7,6 +7,8 @@ import {Offer} from '../../types/offer';
 import Map from '../../components/map/map';
 import {PlaceClasses} from '../../consts';
 import {useAppSelector} from '../../hooks';
+import {getSelectedCity} from '../../store/offer-process/selectors';
+import {filterOffers} from '../../store/offer-data/selectors';
 
 function Main(): JSX.Element {
 
@@ -14,7 +16,9 @@ function Main(): JSX.Element {
     undefined
   );
 
-  const {offersByCity, selectedCity} = useAppSelector((state) => state);
+  const selectedCity = useAppSelector(getSelectedCity);
+
+  const offersByCity = useAppSelector(filterOffers);
 
   const onPlaceCardMouseOver = (id: number) => {
     const currentOffer = offersByCity && offersByCity.find((offer) => offer.id === id);

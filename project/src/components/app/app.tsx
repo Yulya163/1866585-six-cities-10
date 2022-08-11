@@ -14,10 +14,14 @@ import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import HistoryRouter from '../history-route/history-route';
 import {isCheckedAuth} from '../../utils';
 import browserHistory from '../../browser-history';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
+import {getLoadedDataStatus, getOffers} from '../../store/offer-data/selectors';
 
 function App(): JSX.Element {
 
-  const {authorizationStatus, isDataLoaded, offersByCity} = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isDataLoaded = useAppSelector(getLoadedDataStatus);
+  const offers = useAppSelector(getOffers);
 
   if (isCheckedAuth(authorizationStatus) || isDataLoaded) {
     return (
@@ -30,7 +34,7 @@ function App(): JSX.Element {
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={offersByCity && offersByCity.length ? <Main /> : <MainEmpty />}
+          element={offers && offers.length ? <Main /> : <MainEmpty />}
         />
         <Route
           path={AppRoute.Login}
@@ -44,8 +48,8 @@ function App(): JSX.Element {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute>
-              {offersByCity && offersByCity.length ?
-                <Favorites favoriteOffers={offersByCity}/> :
+              {offers && offers.length ?
+                <Favorites favoriteOffers={offers}/> :
                 <FavoritesEmpty />}
             </PrivateRoute>
           }

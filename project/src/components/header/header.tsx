@@ -4,9 +4,10 @@ import {useAppSelector, useAppDispatch} from '../../hooks';
 import {AuthorizationStatus} from '../../consts';
 import {logoutAction} from '../../store/api-actions';
 import {getUserName, dropUserName} from '../../services/userName';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
 
 function Header(): JSX.Element {
-  const {authorizationStatus} = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const dispatch = useAppDispatch();
 

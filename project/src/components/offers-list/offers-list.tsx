@@ -1,5 +1,8 @@
 import PlaceCard from '../place-card/place-card';
 import {Offers} from '../../types/offer';
+import {useAppSelector} from '../../hooks';
+import {getSelectedOption} from '../../store/offer-process/selectors';
+import {getSortedOffers} from '../../utils';
 
 type OffersListProps = {
   offers: Offers | undefined;
@@ -10,9 +13,12 @@ type OffersListProps = {
 
 function OffersList({offers, onPlaceCardMouseOver, placeListClass, placeCardClass}: OffersListProps): JSX.Element {
 
+  const selectedOption = useAppSelector(getSelectedOption);
+  const sortedOffers = getSortedOffers(offers, selectedOption);
+
   return (
     <div className={placeListClass}>
-      {offers && offers.map((offer) => (
+      {sortedOffers && sortedOffers.map((offer) => (
         <PlaceCard
           key={offer.id}
           offer={offer}
