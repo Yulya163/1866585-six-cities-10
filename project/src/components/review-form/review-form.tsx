@@ -12,16 +12,15 @@ type ReviewFormProps = {
 function ReviewForm({id, updateReviews}: ReviewFormProps): JSX.Element {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
-  const [isDisabled, setIsDisabled] = useState(true);
 
   type FieldEvent = React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>;
 
-  const handleRatingFieldChange = async (evt: FieldEvent) => {
-    await setRating(Number(evt.target.value));
+  const handleRatingFieldChange = (evt: FieldEvent) => {
+    setRating(Number(evt.target.value));
   };
 
-  const handleTextAreaChange = async (evt: FieldEvent) => {
-    await setComment(evt.target.value);
+  const handleTextAreaChange = (evt: FieldEvent) => {
+    setComment(evt.target.value);
   };
 
   const resetForm = () => {
@@ -29,25 +28,13 @@ function ReviewForm({id, updateReviews}: ReviewFormProps): JSX.Element {
     setComment('');
   };
 
-  const checkForm = () => {
-    if(comment.length >= MIN_COMMENT_VALUE_LENGTH && comment.length <= MAX_COMMENT_VALUE_LENGTH && rating !== 0) {
-      setIsDisabled(false);
-    } else {
-      setIsDisabled(true);
-    }
-  };
-
   const sendReview = async () => {
-    try {
-      const {data} = await api.post(
-        `${APIRoute.Comments}/${id}`,
-        {comment, rating}
-      );
-      resetForm();
-      updateReviews(data);
-    } catch {
-      setIsDisabled(false);
-    }
+    const {data} = await api.post(
+      `${APIRoute.Comments}/${id}`,
+      {comment, rating}
+    );
+    await resetForm();
+    await updateReviews(data);
   };
 
   return (
@@ -55,7 +42,6 @@ function ReviewForm({id, updateReviews}: ReviewFormProps): JSX.Element {
       className='reviews__form form'
       action='#'
       method='post'
-      onChange={checkForm}
       onSubmit={(evt) => {
         evt.preventDefault();
         sendReview();
@@ -148,12 +134,16 @@ function ReviewForm({id, updateReviews}: ReviewFormProps): JSX.Element {
       />
       <div className='reviews__button-wrapper'>
         <p className='reviews__help'>
-          To submit review please make sure to set <span className='reviews__star'>rating</span> and describe your stay with at least <b className='reviews__text-amount'>{MIN_COMMENT_VALUE_LENGTH - comment.length} characters</b>.
+          To submit review please make sure to set <span className='reviews__star'>rating</span> and describe your stay with at least <b className='reviews__text-amount'>50 characters</b> and no more then <b className='reviews__text-amount'>300 characters</b>. Now you have entered {comment.length} character.
         </p>
         <button
           className='reviews__submit form__submit button'
           type='submit'
-          disabled={isDisabled}
+          disabled={
+            comment.length < MIN_COMMENT_VALUE_LENGTH ||
+            comment.length > MAX_COMMENT_VALUE_LENGTH ||
+            rating === 0
+          }
         >
           Submit
         </button>

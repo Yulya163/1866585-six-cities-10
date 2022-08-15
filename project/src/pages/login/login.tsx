@@ -1,4 +1,4 @@
-import {useRef, FormEvent} from 'react';
+import {useRef, FormEvent, useState} from 'react';
 import {useAppDispatch} from '../../hooks';
 import {loginAction} from '../../store/api-actions';
 import {AuthData} from '../../types/auth-data';
@@ -10,11 +10,25 @@ function Login(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [message, setMessage] = useState('');
+
   const dispatch = useAppDispatch();
 
   const onSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData));
     saveUserName(authData.login);
+  };
+
+  const onChange = () => {
+    const minOneLetterAndNumberReg = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/;
+
+    if (passwordRef.current && minOneLetterAndNumberReg.test(passwordRef.current.value)) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+      setMessage('Please enter at least one letter and number without spaces');
+    }
   };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
@@ -68,13 +82,16 @@ function Login(): JSX.Element {
                   className='login__input form__input'
                   type='password'
                   name='password'
+                  onChange={onChange}
                   placeholder='Password'
                   required
                 />
+                <p>{message}</p>
               </div>
               <button
                 className='login__submit form__submit button'
                 type='submit'
+                disabled={isDisabled}
               >
                 Sign in
               </button>
