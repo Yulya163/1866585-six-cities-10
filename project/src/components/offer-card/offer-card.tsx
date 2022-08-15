@@ -1,15 +1,16 @@
 import {Link} from 'react-router-dom';
+import Bookmark from '../bookmark/bookmark';
 import {Offer} from '../../types/offer';
 import {calcRatingWidth} from '../../utils';
 
-type PlaceCardProps = {
+type OfferCardProps = {
   offer: Offer;
   onPlaceCardMouseOver?: (id: number) => void;
   placeCardClass: string;
 }
 
 
-function PlaceCard({offer, onPlaceCardMouseOver, placeCardClass}: PlaceCardProps): JSX.Element {
+function OfferCard({offer, onPlaceCardMouseOver, placeCardClass}: OfferCardProps): JSX.Element {
   const {
     price,
     previewImage,
@@ -17,6 +18,7 @@ function PlaceCard({offer, onPlaceCardMouseOver, placeCardClass}: PlaceCardProps
     isPremium,
     rating,
     type,
+    isFavorite,
     id
   } = offer;
 
@@ -41,12 +43,7 @@ function PlaceCard({offer, onPlaceCardMouseOver, placeCardClass}: PlaceCardProps
             <b className='place-card__price-value'>&euro;{price}</b>
             <span className='place-card__price-text'>&#47;&nbsp;night</span>
           </div>
-          <button className='place-card__bookmark-button button' type='button'>
-            <svg className='place-card__bookmark-icon' width='18' height='19'>
-              <use xlinkHref ='#icon-bookmark'></use>
-            </svg>
-            <span className='visually-hidden'>To bookmarks</span>
-          </button>
+          <Bookmark isFavorite={isFavorite} id={id}/>
         </div>
         <div className='place-card__rating rating'>
           <div className='place-card__stars rating__stars'>
@@ -62,4 +59,4 @@ function PlaceCard({offer, onPlaceCardMouseOver, placeCardClass}: PlaceCardProps
     </article>
   );
 }
-export default PlaceCard;
+export default OfferCard;

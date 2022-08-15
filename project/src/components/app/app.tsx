@@ -4,7 +4,7 @@ import Main from '../../pages/main/main';
 import MainEmpty from '../../pages/main-empty/main-empty';
 import NotFound from '../../pages/not-found/not-found';
 import Favorites from '../../pages/favorites/favorites';
-import FavoritesEmpty from '../../pages/favorites-empty/favorites-empty';
+
 import Login from '../../pages/login/login';
 import Room from '../../pages/room/room';
 import PrivateRoute from '../private-route/private-route';
@@ -48,9 +48,7 @@ function App(): JSX.Element {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute>
-              {offers && offers.length ?
-                <Favorites favoriteOffers={offers}/> :
-                <FavoritesEmpty />}
+              <Favorites />
             </PrivateRoute>
           }
         />

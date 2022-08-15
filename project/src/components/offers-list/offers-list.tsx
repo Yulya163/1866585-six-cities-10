@@ -1,4 +1,4 @@
-import PlaceCard from '../place-card/place-card';
+import OfferCard from '../offer-card/offer-card';
 import {Offers} from '../../types/offer';
 import {useAppSelector} from '../../hooks';
 import {getSelectedOption} from '../../store/offer-process/selectors';
@@ -19,7 +19,7 @@ function OffersList({offers, onPlaceCardMouseOver, placeListClass, placeCardClas
   return (
     <div className={placeListClass}>
       {sortedOffers && sortedOffers.map((offer) => (
-        <PlaceCard
+        <OfferCard
           key={offer.id}
           offer={offer}
           onPlaceCardMouseOver={onPlaceCardMouseOver}
