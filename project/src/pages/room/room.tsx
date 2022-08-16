@@ -1,27 +1,26 @@
-import {useLocation} from 'react-router-dom';
 import {useEffect, useState} from 'react';
+import {useLocation, useNavigate} from 'react-router-dom';
 import Header from '../../components/header/header';
-import ReviewForm from '../../components/review-form/review-form';
 import ReviewsList from '../../components/reviews-list/reviews-list';
-import {Offers, Offer} from '../../types/offer';
-import {Comments} from '../../types/comment';
-import {calcRatingWidth} from '../../utils';
+import ReviewForm from '../../components/review-form/review-form';
 import Map from '../../components/map/map';
 import OffersList from '../../components/offers-list/offers-list';
-import {PlaceClasses} from '../../consts';
-import {useAppSelector} from '../../hooks';
-import {AuthorizationStatus} from '../../consts';
-import {api} from '../../store';
-import {APIRoute} from '../../consts';
 import NotFound from '../not-found/not-found';
-import {MAX_REVIEWS_NUMBER} from '../../consts';
-import {sortDayDown} from '../../utils';
+import {Offers, Offer} from '../../types/offer';
+import {Comments} from '../../types/comment';
+import {useAppSelector, useAppDispatch} from '../../hooks';
+import {MAX_REVIEWS_NUMBER, APIRoute, PlaceClasses, AuthorizationStatus} from '../../consts';
+import {calcRatingWidth, sortDayDown} from '../../utils';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
+import {fetchOfferAction, fetchFavoriteOffersAction} from '../../store/api-actions';
+import {api} from '../../store';
 
 function Room(): JSX.Element {
 
   const location = useLocation();
   const urlId = Number(location.pathname.split('/').slice(-1));
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const [offer, setOffer] = useState<Offer>();
   const [offersNearby, setOffersNearby] = useState<Offers>([]);
@@ -34,15 +33,28 @@ function Room(): JSX.Element {
       const fetchData = async () => {
         try {
           const offerResult = await api.get<Offer>(`${APIRoute.Offers}/${urlId}`);
-          const offersNearbyResult = await api.get<Offers>(`${APIRoute.Offers}/${urlId}/nearby`);
-          const reviewsResult = await api.get<Comments>(`${APIRoute.Comments}/${urlId}`);
           setOffer(offerResult.data);
-          setOffersNearby(offersNearbyResult.data);
-          setReviews(reviewsResult.data);
           setIsData(true);
         } catch {
           setIsData(false);
         }
+      };
+      fetchData();
+    }
+    return () => {
+      isMounted = false;
+    };
+
+  }, [urlId]);
+
+  useEffect(() => {
+    let isMounted = true;
+    if (isMounted) {
+      const fetchData = async () => {
+        const offersNearbyResult = await api.get<Offers>(`${APIRoute.Offers}/${urlId}/nearby`);
+        const reviewsResult = await api.get<Comments>(`${APIRoute.Comments}/${urlId}`);
+        await setOffersNearby(offersNearbyResult.data);
+        await setReviews(reviewsResult.data);
       };
       fetchData();
     }
@@ -60,6 +72,20 @@ function Room(): JSX.Element {
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
+  const checkAuthorizationStatus = () => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      navigate('../login');
+    }
+  };
+
+  const onClickBookmarkButtonHandler = async () => {
+    await api.post(
+      `${APIRoute.Favorite}/${urlId}/${offer && offer.isFavorite ? 0 : 1}`
+    );
+    await dispatch(fetchOfferAction());
+    await dispatch(fetchFavoriteOffersAction());
+  };
+
   return (
     isData ?
       <div className='page'>
@@ -69,7 +95,7 @@ function Room(): JSX.Element {
           <section className='property'>
             <div className='property__gallery-container container'>
               <div className='property__gallery'>
-                {offer !== undefined && offer !== undefined && offer.images.map((image) => (
+                {offer && offer.images.map((image) => (
                   <div className='property__image-wrapper' key={image}>
                     <img className='property__image' src={image} alt={offer && offer.title} />
                   </div>
@@ -78,15 +104,26 @@ function Room(): JSX.Element {
             </div>
             <div className='property__container container'>
               <div className='property__wrapper'>
-                {offer !== undefined && offer.isPremium ?
+                {offer && offer.isPremium ?
                   <div className='property__mark'>
                     <span>Premium</span>
                   </div> : null}
                 <div className='property__name-wrapper'>
                   <h1 className='property__name'>
-                    {offer !== undefined && offer.title}
+                    {offer && offer.title}
                   </h1>
-                  <button className='property__bookmark-button button' type='button'>
+                  <button
+                    className={
+                      offer && offer.isFavorite ?
+                        'property__bookmark-button property__bookmark-button--active button' :
+                        'property__bookmark-button button'
+                    }
+                    type='button'
+                    onClick={() => {
+                      checkAuthorizationStatus();
+                      onClickBookmarkButtonHandler();
+                    }}
+                  >
                     <svg className='property__bookmark-icon' width='31' height='33'>
                       <use xlinkHref='#icon-bookmark'></use>
                     </svg>
@@ -95,30 +132,30 @@ function Room(): JSX.Element {
                 </div>
                 <div className='property__rating rating'>
                   <div className='property__stars rating__stars'>
-                    <span style={{'width': calcRatingWidth(offer !== undefined ? offer.rating : 0)}}></span>
+                    <span style={{'width': calcRatingWidth(offer ? offer.rating : 0)}}></span>
                     <span className='visually-hidden'>Rating</span>
                   </div>
-                  <span className='property__rating-value rating__value'>{offer !== undefined ? offer.rating : 0}</span>
+                  <span className='property__rating-value rating__value'>{offer ? offer.rating : 0}</span>
                 </div>
                 <ul className='property__features'>
                   <li className='property__feature property__feature--entire'>
-                    {offer !== undefined && offer.type}
+                    {offer && offer.type}
                   </li>
                   <li className='property__feature property__feature--bedrooms'>
-                    {offer !== undefined && offer.bedrooms} Bedrooms
+                    {offer && offer.bedrooms} Bedrooms
                   </li>
                   <li className='property__feature property__feature--adults'>
-                    Max {offer !== undefined && offer.maxAdults} adults
+                    Max {offer && offer.maxAdults} adults
                   </li>
                 </ul>
                 <div className='property__price'>
-                  <b className='property__price-value'>&euro;{offer !== undefined && offer.price}</b>
+                  <b className='property__price-value'>&euro;{offer && offer.price}</b>
                   <span className='property__price-text'>&nbsp;night</span>
                 </div>
                 <div className='property__inside'>
                   <h2 className='property__inside-title'>What&apos;s inside</h2>
                   <ul className='property__inside-list'>
-                    {offer !== undefined && offer.goods.map((good) => (
+                    {offer && offer.goods.map((good) => (
                       <li className='property__inside-item' key={good}>
                         {good}
                       </li>
@@ -131,22 +168,22 @@ function Room(): JSX.Element {
                     <div className='property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper'>
                       <img
                         className='property__avatar user__avatar'
-                        src={offer !== undefined ? offer.host.avatarUrl : ''}
+                        src={offer ? offer.host.avatarUrl : ''}
                         width='74'
                         height='74'
-                        alt={offer !== undefined ? offer.title : ''}
+                        alt={offer ? offer.title : ''}
                       />
                     </div>
                     <span className='property__user-name'>
-                      {offer !== undefined && offer.host.name}
+                      {offer && offer.host.name}
                     </span>
                     <span className='property__user-status'>
-                      {offer !== undefined && offer.host.isPro ? 'Pro' : ''}
+                      {offer && offer.host.isPro ? 'Pro' : ''}
                     </span>
                   </div>
                   <div className='property__description'>
                     <p className='property__text'>
-                      {offer !== undefined && offer.description}
+                      {offer && offer.description}
                     </p>
                   </div>
                 </div>

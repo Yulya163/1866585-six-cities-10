@@ -5,9 +5,11 @@ import {AuthorizationStatus} from '../../consts';
 import {logoutAction} from '../../store/api-actions';
 import {getUserName, dropUserName} from '../../services/userName';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
+import {getFavoriteOffers} from '../../store/offer-data/selectors';
 
 function Header(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const favoriteOffersData = useAppSelector(getFavoriteOffers);
 
   const dispatch = useAppDispatch();
 
@@ -27,7 +29,7 @@ function Header(): JSX.Element {
                       <div className='header__avatar-wrapper user__avatar-wrapper'>
                       </div>
                       <span className='header__user-name user__name'>{getUserName()}</span>
-                      <span className='header__favorite-count'>3</span>
+                      <span className='header__favorite-count'>{favoriteOffersData && favoriteOffersData.length}</span>
                     </Link>
                   </li>
                   <li className='header__nav-item'>
