@@ -6,7 +6,7 @@ import {fetchOfferAction, fetchFavoriteOffersAction} from '../api-actions';
 const initialState: OfferData = {
   offers: [],
   favoriteOffers: [],
-  isDataLoaded:false,
+  isDataLoaded: false,
 };
 
 export const offerData = createSlice({
@@ -22,12 +22,8 @@ export const offerData = createSlice({
         state.offers = action.payload;
         state.isDataLoaded = false;
       })
-      // .addCase(fetchFavoriteOffersAction.pending, (state) => {
-      //   state.isDataLoaded = true;
-      // })
       .addCase(fetchFavoriteOffersAction.fulfilled, (state, action) => {
         state.favoriteOffers = action.payload;
-        //state.isDataLoaded = false;
       });
   }
 });
