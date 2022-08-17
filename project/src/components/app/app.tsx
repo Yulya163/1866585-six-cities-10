@@ -10,9 +10,7 @@ import PrivateRoute from '../private-route/private-route';
 import PrivateLoginRoute from '../private-login-route/private-login-route';
 import {useAppSelector} from '../../hooks';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
-//import HistoryRouter from '../history-route/history-route';
 import {isCheckedAuth} from '../../utils';
-//import browserHistory from '../../browser-history';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
 import {getLoadedDataStatus, getOffers} from '../../store/offer-data/selectors';
 

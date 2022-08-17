@@ -8,6 +8,7 @@ import HistoryRouter from '../../components/history-route/history-route';
 import Main from './main';
 import {AppRoute, Cities} from '../../consts';
 import {makeFakeOffers} from '../../utils/mocks';
+
 const mockStore = configureMockStore();
 const history = createMemoryHistory();
 const store = mockStore({});

@@ -4,7 +4,7 @@ import {AuthorizationStatus} from './consts';
 import {Comment} from './types/comment';
 import {Options} from './consts';
 
-export const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
+const isCheckedAuth = (authorizationStatus: AuthorizationStatus): boolean =>
   authorizationStatus === AuthorizationStatus.Unknown;
 
 const calcRatingWidth = (rating: number) => `${Math.round(rating) * 20}%`;
@@ -46,6 +46,7 @@ const getSortedOffers = (offers: Offers | undefined, selectedOption: string) => 
 };
 
 export {
+  isCheckedAuth,
   calcRatingWidth,
   humanizeDate,
   getOffersByCity,

@@ -8,7 +8,7 @@ export const redirect: Middleware<unknown, Reducer> =
   (_store) =>
     (next) =>
       (action) => {
-        if (action.type === 'city/redirectToRoute') {
+        if (action.type === 'offer/redirectToRoute') {
           browserHistory.push(action.payload);
         }
 
