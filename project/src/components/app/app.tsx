@@ -10,15 +10,23 @@ import PrivateRoute from '../private-route/private-route';
 import PrivateLoginRoute from '../private-login-route/private-login-route';
 import {useAppSelector} from '../../hooks';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
+import ErrorScreen from '../../pages/error-screen/error-screen';
 import {isCheckedAuth} from '../../utils';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
-import {getLoadedDataStatus, getOffers} from '../../store/offer-data/selectors';
+import {getLoadedDataStatus, getOffers, getServerErrorStatus} from '../../store/offer-data/selectors';
 
 function App(): JSX.Element {
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isDataLoaded = useAppSelector(getLoadedDataStatus);
+  const isServerError = useAppSelector(getServerErrorStatus);
   const offers = useAppSelector(getOffers);
+
+  if (isServerError) {
+    return (
+      <ErrorScreen />
+    );
+  }
 
   if (isCheckedAuth(authorizationStatus) || isDataLoaded) {
     return (

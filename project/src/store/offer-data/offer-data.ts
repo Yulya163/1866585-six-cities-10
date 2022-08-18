@@ -7,6 +7,7 @@ const initialState: OfferData = {
   offers: [],
   favoriteOffers: [],
   isDataLoaded: false,
+  isServerError: false,
 };
 
 export const offerData = createSlice({
@@ -22,8 +23,11 @@ export const offerData = createSlice({
         state.offers = action.payload;
         state.isDataLoaded = false;
       })
+      .addCase(fetchOfferAction.rejected, (state) => {
+        state.isServerError = true;
+      })
       .addCase(fetchFavoriteOffersAction.fulfilled, (state, action) => {
         state.favoriteOffers = action.payload;
-      });
+      })
   }
 });
