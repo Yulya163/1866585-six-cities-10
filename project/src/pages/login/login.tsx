@@ -25,6 +25,7 @@ function Login(): JSX.Element {
 
     if (passwordRef.current && minOneLetterAndNumberReg.test(passwordRef.current.value)) {
       setIsDisabled(false);
+      setMessage('');
     } else {
       setIsDisabled(true);
       setMessage('Please enter at least one letter and number without spaces');
@@ -65,18 +66,20 @@ function Login(): JSX.Element {
               onSubmit={handleSubmit}
             >
               <div className='login__input-wrapper form__input-wrapper'>
-                <label className='visually-hidden'>E-mail</label>
+                <label className='visually-hidden' htmlFor='email'>E-mail</label>
                 <input
                   ref={loginRef}
                   className='login__input form__input'
                   type='email'
                   name='email'
                   placeholder='Email'
+                  id='email'
+                  data-testid='login'
                   required
                 />
               </div>
               <div className='login__input-wrapper form__input-wrapper'>
-                <label className='visually-hidden'>Password</label>
+                <label className='visually-hidden' htmlFor='password'>Password</label>
                 <input
                   ref={passwordRef}
                   className='login__input form__input'
@@ -84,6 +87,8 @@ function Login(): JSX.Element {
                   name='password'
                   onChange={onChange}
                   placeholder='Password'
+                  id='password'
+                  data-testid='password'
                   required
                 />
                 <p>{message}</p>
