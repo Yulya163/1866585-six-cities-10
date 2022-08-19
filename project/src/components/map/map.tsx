@@ -58,6 +58,7 @@ function Map(props: MapProps): JSX.Element {
     <div
       style={{height: '100%', zIndex: '100'}}
       ref={mapRef}
+      data-testid="map"
     >
     </div>
   );

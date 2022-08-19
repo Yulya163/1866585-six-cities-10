@@ -1,5 +1,6 @@
 //import {music, system, name, internet} from 'faker';
 import {Offer, Offers} from '../types/offer';
+import {Comment} from '../types/comment';
 
 export const makeFakeOffer = (): Offer => ({
   'city': {
@@ -57,3 +58,16 @@ export const makeFakeOffer = (): Offer => ({
 } as Offer);
 
 export const makeFakeOffers = (): Offers => Array.from({length: 5}, () => makeFakeOffer());
+
+export const makeFakeComment = (): Comment => ({
+  'id': 1,
+  'user': {
+    'id': 11,
+    'isPro': false,
+    'name': 'Jack',
+    'avatarUrl': 'https://10.react.pages.academy/static/avatar/2.jpg'
+  },
+  'rating': 3,
+  'comment': 'Home is amazing. Its like staying in a museum. The rooms, furnishings and artworks are incredible. The views of My Vesuvius',
+  'date': '2022-06-05T12:25:36.939Z'
+} as Comment);

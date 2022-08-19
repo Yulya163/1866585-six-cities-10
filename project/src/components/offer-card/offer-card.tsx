@@ -9,7 +9,6 @@ type OfferCardProps = {
   placeCardClass: string;
 }
 
-
 function OfferCard({offer, onPlaceCardMouseOver, placeCardClass}: OfferCardProps): JSX.Element {
   const {
     price,

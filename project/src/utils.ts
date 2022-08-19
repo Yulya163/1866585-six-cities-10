@@ -45,6 +45,11 @@ const getSortedOffers = (offers: Offers | undefined, selectedOption: string) => 
   }
 };
 
+const getRandomCity = (cities: string[]) => {
+  const rand = Math.floor(Math.random() * cities.length);
+  return cities[rand];
+};
+
 export {
   isCheckedAuth,
   calcRatingWidth,
@@ -55,5 +60,6 @@ export {
   sortPriceDown,
   sortDayDown,
   sortTopRatedFirst,
-  getSortedOffers
+  getSortedOffers,
+  getRandomCity
 };

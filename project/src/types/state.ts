@@ -10,6 +10,7 @@ export type OfferData = {
   offers: Offers | undefined,
   favoriteOffers: Offers | undefined,
   isDataLoaded: boolean,
+  isServerError: boolean,
 };
 
 export type OfferProcess = {

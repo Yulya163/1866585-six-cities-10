@@ -1,4 +1,5 @@
 import {render, screen} from '@testing-library/react';
+import {Routes, Route} from 'react-router-dom';
 import {createMemoryHistory} from 'history';
 import {Provider} from 'react-redux';
 import {configureMockStore} from '@jedmao/redux-mock-store';
@@ -26,6 +27,56 @@ const fakeApp = (
 );
 
 describe('Application Routing', () => {
+
+  it('should render "Main" when user navigate to "/"', () => {
+    history.push(AppRoute.Main);
+
+    render(
+      <Provider store={store}>
+        <HistoryRouter history={history}>
+          <Routes>
+            <Route
+              path={'/'}
+              element={<h1>Main Route</h1>}
+            />
+            <Route
+              path={'/'}
+              element={<h1>MainEmpty Route</h1>}
+            />
+          </Routes>
+        </HistoryRouter>
+      </Provider>,
+    );
+
+    expect(screen.getByText(/Main Route/i)).toBeInTheDocument();
+    expect(screen.queryByText(/MainEmpty Route/i)).not.toBeInTheDocument();
+  });
+
+  it('should render "Login" when user navigate to "/login"', () => {
+    const newfakeApp = (
+      <Provider
+        store={
+          mockStore({
+            USER: {authorizationStatus: AuthorizationStatus.NoAuth},
+            DATA: {isDataLoaded: false},
+            OFFER: {offers: makeFakeOffers()},
+          })
+        }
+      >
+        <HistoryRouter history={history}>
+          <App />
+        </HistoryRouter>
+      </Provider>
+    );
+
+    history.push(AppRoute.Login);
+
+    render(newfakeApp);
+
+    expect(screen.getByLabelText(/E-mail/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Password/i)).toBeInTheDocument();
+    expect(screen.getByRole('button')).toBeInTheDocument();
+  });
 
   it('should render "Room" when user navigate to "/offer/:id"', () => {
     history.push(AppRoute.Room);
