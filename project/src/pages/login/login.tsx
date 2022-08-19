@@ -1,10 +1,14 @@
 import {useRef, FormEvent, useState} from 'react';
+import {Link} from 'react-router-dom';
 import {useAppDispatch} from '../../hooks';
+import {changeCity} from '../../store/offer-process/offer-process';
 import {loginAction} from '../../store/api-actions';
 import {AuthData} from '../../types/auth-data';
-import {Link} from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import {saveUserName} from '../../services/userName';
+import {getRandomCity} from '../../utils';
+
+const cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 function Login(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -15,7 +19,7 @@ function Login(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  const onSubmit = (authData: AuthData) => {
+  const handleSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData));
     saveUserName(authData.login);
   };
@@ -32,16 +36,18 @@ function Login(): JSX.Element {
     }
   };
 
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const onSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     if (loginRef.current !== null && passwordRef.current !== null) {
-      onSubmit({
+      handleSubmit({
         login: loginRef.current.value,
         password: passwordRef.current.value,
       });
     }
   };
+
+  const randomCity = getRandomCity(cities);
 
   return (
     <div className='page page--gray page--login'>
@@ -63,7 +69,7 @@ function Login(): JSX.Element {
               className='login__form form'
               action='#'
               method='post'
-              onSubmit={handleSubmit}
+              onSubmit={onSubmit}
             >
               <div className='login__input-wrapper form__input-wrapper'>
                 <label className='visually-hidden' htmlFor='email'>E-mail</label>
@@ -104,8 +110,14 @@ function Login(): JSX.Element {
           </section>
           <section className='locations locations--login locations--current'>
             <div className='locations__item'>
-              <Link className='locations__item-link' to='/'>
-                <span>Amsterdam</span>
+              <Link
+                className='locations__item-link'
+                to='/'
+                onClick={() => {
+                  dispatch(changeCity(randomCity));
+                }}
+              >
+                <span>{randomCity}</span>
               </Link>
             </div>
           </section>

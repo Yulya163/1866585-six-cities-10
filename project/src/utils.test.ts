@@ -1,5 +1,11 @@
-import {isCheckedAuth, calcRatingWidth, humanizeDate} from './utils';
+import {isCheckedAuth, calcRatingWidth, humanizeDate, sortDayDown, sortPriceUp, sortPriceDown, sortTopRatedFirst, getSortedOffers, getRandomCity} from './utils';
 import {AuthorizationStatus} from './consts';
+import {makeFakeOffer, makeFakeOffers, makeFakeComment} from './utils/mocks';
+
+const fakeOffer = makeFakeOffer();
+const fakeOffers = makeFakeOffers();
+const fakeComment = makeFakeComment();
+const selectedOption = 'Popular';
 
 describe('Function: isCheckedAuth', () => {
   it('should return "true" when authorizationStatus is UNKNOWN', () => {
@@ -32,10 +38,44 @@ describe('Function: calcRatingWidth', () => {
   });
 });
 
-describe('Function: humanizeDate', () => {
-  it('should return date string', () => {
+describe('Function: getSortedOffers', () => {
+  it('should return offers', () => {
+    expect(getSortedOffers(fakeOffers, selectedOption))
+      .toBe(fakeOffers);
+  });
+});
+
+describe('Function with dayjs', () => {
+  it('humanizeDate should return date string', () => {
     const date = '2022-06-23T12:25:36.939Z';
     expect(humanizeDate(date))
       .toBe('June 2022');
+  });
+  it('sortDayDown should return date string', () => {
+    expect(sortDayDown(fakeComment, fakeComment))
+      .toBe(0);
+  });
+});
+
+describe('get weight for sorting', () => {
+  it('sortPriceUp return difference of values', () => {
+    expect(sortPriceUp(fakeOffer, fakeOffer))
+      .toBe(0);
+  });
+  it('sortPriceDown return difference of values', () => {
+    expect(sortPriceDown(fakeOffer, fakeOffer))
+      .toBe(0);
+  });
+  it('sortTopRatedFirst return difference of values', () => {
+    expect(sortTopRatedFirst(fakeOffer, fakeOffer))
+      .toBe(0);
+  });
+
+  describe('Function: getRandomCity', () => {
+    it('should return random city', () => {
+      const fakeCities = ['Paris'];
+      expect(getRandomCity(fakeCities))
+        .toBe('Paris');
+    });
   });
 });

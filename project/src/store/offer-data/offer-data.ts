@@ -22,12 +22,17 @@ export const offerData = createSlice({
       .addCase(fetchOfferAction.fulfilled, (state, action) => {
         state.offers = action.payload;
         state.isDataLoaded = false;
+        state.isServerError = false;
       })
       .addCase(fetchOfferAction.rejected, (state) => {
         state.isServerError = true;
       })
       .addCase(fetchFavoriteOffersAction.fulfilled, (state, action) => {
         state.favoriteOffers = action.payload;
+        state.isServerError = false;
       })
+      .addCase(fetchFavoriteOffersAction.rejected, (state) => {
+        state.isServerError = true;
+      });
   }
 });
