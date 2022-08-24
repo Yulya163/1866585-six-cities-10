@@ -205,7 +205,6 @@ function Room(): JSX.Element {
             <Map
               offers={offer && [...offersNearby, offer]}
               selectedOffer={offer}
-              id={offer?.id}
             />
           </section>
         </section>

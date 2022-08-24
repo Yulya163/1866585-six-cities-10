@@ -11,7 +11,6 @@ import 'leaflet/dist/leaflet.css';
 type MapProps = {
   offers: Offers | undefined;
   selectedOffer?: Offer | undefined;
-  id?: number;
 };
 
 const defaultCustomIcon = leaflet.icon({
@@ -28,7 +27,7 @@ const currentCustomIcon = leaflet.icon({
 
 function Map(props: MapProps): JSX.Element {
 
-  const {selectedOffer, offers, id} = props;
+  const {selectedOffer, offers} = props;
 
   const selectedCity = useAppSelector(getSelectedCity);
 
@@ -60,7 +59,7 @@ function Map(props: MapProps): JSX.Element {
           .addTo(map);
       });
     }
-  }, [map, offers, id, selectedOffer]);
+  }, [map, offers, selectedOffer]);
 
   return (
     <div
