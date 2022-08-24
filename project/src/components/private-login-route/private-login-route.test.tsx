@@ -3,7 +3,7 @@ import {createMemoryHistory} from 'history';
 import {render, screen} from '@testing-library/react';
 import {Provider} from 'react-redux';
 import {configureMockStore} from '@jedmao/redux-mock-store';
-import HistoryRouter from '../history-route/history-route';
+import HistoryRoute from '../history-route/history-route';
 import {AppRoute, AuthorizationStatus} from '../../consts';
 import PrivateLoginRoute from './private-login-route';
 
@@ -20,7 +20,7 @@ describe('Component: PrivateRouter', () => {
 
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <HistoryRoute history={history}>
           <Routes>
             <Route
               path={AppRoute.Main}
@@ -37,7 +37,7 @@ describe('Component: PrivateRouter', () => {
               }
             />
           </Routes>
-        </HistoryRouter>
+        </HistoryRoute>
       </Provider>,
     );
 
@@ -52,7 +52,7 @@ describe('Component: PrivateRouter', () => {
 
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <HistoryRoute history={history}>
           <Routes>
             <Route
               path={AppRoute.Main}
@@ -69,7 +69,7 @@ describe('Component: PrivateRouter', () => {
               }
             />
           </Routes>
-        </HistoryRouter>
+        </HistoryRoute>
       </Provider>,
     );
 

@@ -3,7 +3,7 @@ import Locations from '../../components/locations/locations';
 import {useAppSelector} from '../../hooks';
 import {getSelectedCity} from '../../store/offer-process/selectors';
 
-function MainEmptyScreen(): JSX.Element {
+function MainEmpty(): JSX.Element {
   const selectedCity = useAppSelector(getSelectedCity);
 
   return (
@@ -30,4 +30,4 @@ function MainEmptyScreen(): JSX.Element {
 
 }
 
-export default MainEmptyScreen;
+export default MainEmpty;

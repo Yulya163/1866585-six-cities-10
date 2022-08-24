@@ -3,7 +3,7 @@ import {Routes, Route} from 'react-router-dom';
 import {createMemoryHistory} from 'history';
 import {Provider} from 'react-redux';
 import {configureMockStore} from '@jedmao/redux-mock-store';
-import HistoryRouter from '../../components/history-route/history-route';
+import HistoryRoute from '../../components/history-route/history-route';
 import MainEmpty from './main-empty';
 import {AuthorizationStatus, AppRoute, Cities} from '../../consts';
 
@@ -19,14 +19,14 @@ describe('Component: MainEmpty', () => {
   it('should render correctly', () => {
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <HistoryRoute history={history}>
           <Routes>
             <Route
               path={AppRoute.Main}
               element={<MainEmpty/>}
             />
           </Routes>
-        </HistoryRouter>
+        </HistoryRoute>
       </Provider>);
 
     expect(screen.getByText(/No places to stay available/i)).toBeInTheDocument();

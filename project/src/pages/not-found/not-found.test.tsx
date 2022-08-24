@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 import {createMemoryHistory} from 'history';
-import HistoryRouter from '../../components/history-route/history-route';
+import HistoryRoute from '../../components/history-route/history-route';
 import NotFound from './not-found';
 
 describe('Component: NotFoundScreen', () => {
@@ -8,9 +8,9 @@ describe('Component: NotFoundScreen', () => {
     const history = createMemoryHistory();
 
     render(
-      <HistoryRouter history={history}>
+      <HistoryRoute history={history}>
         <NotFound />
-      </HistoryRouter>,
+      </HistoryRoute>,
     );
 
     const headerElement = screen.getByText('404. Page not found');

@@ -4,7 +4,7 @@ import {createMemoryHistory} from 'history';
 import {Provider} from 'react-redux';
 import userEvent from '@testing-library/user-event';
 import {configureMockStore} from '@jedmao/redux-mock-store';
-import HistoryRouter from '../../components/history-route/history-route';
+import HistoryRoute from '../../components/history-route/history-route';
 import Main from './main';
 import {AppRoute, Cities} from '../../consts';
 import {makeFakeOffers} from '../../utils/mocks';
@@ -19,14 +19,14 @@ describe('Component: Main', () => {
   it('should render correctly', () => {
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <HistoryRoute history={history}>
           <Routes>
             <Route
               path={AppRoute.Main}
               element={<Main/>}
             />
           </Routes>
-        </HistoryRouter>
+        </HistoryRoute>
       </Provider>);
 
     expect(screen.getByText(new RegExp(`${offersByCity.length} places to stay in ${selectedCity}`, 'i'))).toBeInTheDocument();
@@ -35,7 +35,7 @@ describe('Component: Main', () => {
   it('should redirect to /offer/:id when user clicked to button', async () => {
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <HistoryRoute history={history}>
           <Routes>
             <Route
               path={AppRoute.Main}
@@ -46,7 +46,7 @@ describe('Component: Main', () => {
               element={<h1>This is Room</h1>}
             />
           </Routes>
-        </HistoryRouter>
+        </HistoryRoute>
       </Provider>);
 
     expect(screen.queryByText(/This is Room/i)).not.toBeInTheDocument();

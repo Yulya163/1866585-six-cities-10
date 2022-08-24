@@ -1,7 +1,7 @@
 import {render, screen} from '@testing-library/react';
 import {Routes, Route} from 'react-router-dom';
 import {createMemoryHistory} from 'history';
-import HistoryRouter from '../../components/history-route/history-route';
+import HistoryRoute from '../../components/history-route/history-route';
 import Logo from './logo';
 import userEvent from '@testing-library/user-event';
 
@@ -10,9 +10,9 @@ const history = createMemoryHistory();
 describe('Component: Logo', () => {
   it('should render correctly', () => {
     render(
-      <HistoryRouter history={history}>
+      <HistoryRoute history={history}>
         <Logo />
-      </HistoryRouter>);
+      </HistoryRoute>);
 
     expect(screen.getByAltText(/6 cities logo/i)).toBeInTheDocument();
     expect(screen.getByRole('link')).toBeInTheDocument();
@@ -23,7 +23,7 @@ describe('Component: Logo', () => {
     history.push('/fake');
 
     render(
-      <HistoryRouter history={history}>
+      <HistoryRoute history={history}>
         <Routes>
           <Route
             path="/"
@@ -34,7 +34,7 @@ describe('Component: Logo', () => {
             element={<Logo />}
           />
         </Routes>
-      </HistoryRouter>);
+      </HistoryRoute>);
 
     expect(screen.queryByText(/This is main page/i)).not.toBeInTheDocument();
 

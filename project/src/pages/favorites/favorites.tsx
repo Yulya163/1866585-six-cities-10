@@ -4,14 +4,17 @@ import Bookmark from '../../components/bookmark/bookmark';
 import {Offers, Offer} from '../../types/offer';
 import {calcRatingWidth} from '../../utils';
 import {store} from '../../store';
-import {useAppSelector} from '../../hooks';
+import {useAppSelector, useAppDispatch} from '../../hooks';
 import {getFavoriteOffers} from '../../store/offer-data/selectors';
 import FavoritesEmpty from '../../pages/favorites-empty/favorites-empty';
+import {changeCity} from '../../store/offer-process/offer-process';
 import {fetchFavoriteOffersAction} from '../../store/api-actions';
 
 store.dispatch(fetchFavoriteOffersAction());
 
 function Favorites(): JSX.Element {
+
+  const dispatch = useAppDispatch();
 
   const favoriteOffers = useAppSelector(getFavoriteOffers);
 
@@ -50,7 +53,13 @@ function Favorites(): JSX.Element {
                     <li className='favorites__locations-items' key={keyValue}>
                       <div className='favorites__locations locations locations--current'>
                         <div className='locations__item'>
-                          <Link className='locations__item-link' to={`/offer/${keyValue}`}>
+                          <Link
+                            className='locations__item-link'
+                            to='/'
+                            onClick={() => {
+                              dispatch(changeCity(cityOffers[0]));
+                            }}
+                          >
                             <span>{cityOffers[0]}</span>
                           </Link>
                         </div>

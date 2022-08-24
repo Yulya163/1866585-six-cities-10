@@ -4,7 +4,7 @@ import {createMemoryHistory} from 'history';
 import {Provider} from 'react-redux';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import {makeFakeOffers} from '../../utils/mocks';
-import HistoryRouter from '../history-route/history-route';
+import HistoryRoute from '../history-route/history-route';
 import {AuthorizationStatus, AppRoute} from '../../consts';
 import App from './app';
 
@@ -20,9 +20,9 @@ const history = createMemoryHistory();
 
 const fakeApp = (
   <Provider store={store}>
-    <HistoryRouter history={history}>
+    <HistoryRoute history={history}>
       <App />
-    </HistoryRouter>
+    </HistoryRoute>
   </Provider>
 );
 
@@ -33,7 +33,7 @@ describe('Application Routing', () => {
 
     render(
       <Provider store={store}>
-        <HistoryRouter history={history}>
+        <HistoryRoute history={history}>
           <Routes>
             <Route
               path={'/'}
@@ -44,7 +44,7 @@ describe('Application Routing', () => {
               element={<h1>MainEmpty Route</h1>}
             />
           </Routes>
-        </HistoryRouter>
+        </HistoryRoute>
       </Provider>,
     );
 
@@ -63,9 +63,9 @@ describe('Application Routing', () => {
           })
         }
       >
-        <HistoryRouter history={history}>
+        <HistoryRoute history={history}>
           <App />
-        </HistoryRouter>
+        </HistoryRoute>
       </Provider>
     );
 
