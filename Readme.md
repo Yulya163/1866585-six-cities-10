@@ -4,6 +4,7 @@
 
 - Студент: [Юлия Балакирева](https://up.htmlacademy.ru/react/10/user/1866585).
 - Наставник: `Алексей Толстоног`.
+- [DEMO](https://yulya163.github.io/1866585-six-cities-10)
 
 ## В проекте применяются:
 
