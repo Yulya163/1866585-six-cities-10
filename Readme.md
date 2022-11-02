@@ -15,6 +15,8 @@ Redux, Redux-Thunk, Redux Toolkit, Middleware
 
 REST API, Axios
 
+leaflet
+
 Jest
 
 
